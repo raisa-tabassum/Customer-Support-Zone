@@ -1,6 +1,6 @@
 import React from "react";
 
-const TicketCard = ({ ticket }) => {
+const TicketCard = ({ ticket, cardClick }) => {
   // console.log(ticket)
   const { id, title, description, customer, priority, status, createdAt } =
     ticket;
@@ -8,23 +8,33 @@ const TicketCard = ({ ticket }) => {
   const priorityColor = {
     "HIGH PRIORITY": "text-[#F83044]",
     "MEDIUM PRIORITY": "text-[#FEBB0C]",
-    "LOW PRIORITY": "text-[#02A53B]",
+    "LOW PRIORITY": "text-[#02A53B]",
   };
   const statusColor = {
     Open: "bg-[#B9F8CF] text-[#02A53B]",
-    "In-Progress": "bg-[#F8F3B9] text-[#FEBB0C]",
+    "In-Progress": "bg-[#F8F3B9] text-[#9C7700]",
   };
 
   return (
-    <div className="card card-border bg-base-100 shadow-xl">
+    <div onClick={cardClick} className="card card-border bg-base-100 shadow-xl">
       <div className="card-body">
         <div className="flex justify-between">
           <h2 className="card-title">{title}</h2>
           <button
-            className={`btn border-none text-[16px] rounded-3xl ${statusColor[status]}`}
+            className={`btn border-none text-[16px] rounded-3xl ${statusColor[status]} `}
           >
-            <i class="fa-solid fa-circle"></i>
-            {status}
+            <i
+              className={`fa-solid fa-circle ${
+                status === "In-Progress" ? "text-[#FEBB0C]" : "text-[#02A53B]"
+              }`}
+            ></i>
+            <span
+              className={`${
+                status === "In-Progress" ? " text-[#9C7700]" : "text-[#02A53B]"
+              }`}
+            >
+              {status}
+            </span>
           </button>
         </div>
         <p>{description}</p>
@@ -36,7 +46,7 @@ const TicketCard = ({ ticket }) => {
           <div className="flex gap-3">
             <p>{customer}</p>
             <p>
-              <i class="fa-regular fa-calendar"></i> {createdAt}
+              <i className="fa-regular fa-calendar"></i> {createdAt}
             </p>
           </div>
         </div>

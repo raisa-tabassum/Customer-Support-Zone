@@ -1,34 +1,105 @@
-import React, { use} from 'react';
-import TicketCard from '../TicketCard/TicketCard';
+import React, { use, useState } from "react";
+import TicketCard from "../TicketCard/TicketCard";
+import { toast } from "react-toastify";
 
-const CustomerTickets = ({ticketsPromise}) =>{
+const CustomerTickets = ({
+  ticketsPromise,
+  setInProgressCount,
+  setResolvedCount,
+}) => {
+  const ticketsData = use(ticketsPromise);
+  // console.log("Fetched Tickets:",ticketsData)
 
-    const ticketsData = use(ticketsPromise)
-    console.log("Fetched Tickets:",ticketsData) 
-    return (
-        <div className='max-w-[1200px] mx-auto my-20 flex justify-between gap-10'>
-            <div className='w-9/12'>
-                <h1 className='text-3xl font-semibold text-[#34485A]'>Customer Tickets</h1>
-                <div className='grid grid-cols-2 gap-6 mt-6'>
-                    {
-                        ticketsData.map(ticket=>
-                            <TicketCard key={ticket.id} ticket={ticket}></TicketCard>
-                        )
-                    }
-                </div>
-            </div>
-            <div className='w-3/12'>
-                <div className='mb-12'>
-                    <h1 className='mb-3 text-3xl font-semibold text-[#34485A]'>Task Status</h1>
-                    <p className='text-lg text-[#627382]'>Select a ticket to add to Task Status</p>
-                </div>
-                <div>
-                    <h1 className='mb-3 text-3xl font-semibold text-[#34485A]'>Resolved Task</h1>
-                    <p className='text-lg text-[#627382]'>No resolved tasks yet.</p>
-                </div>
-            </div>
+  const [selectedTickets, setSelectedTickets] = useState([]);
+  const [resolvedTickets, setResolvedTickets] = useState([]);
+  const [tickets, setTickets] = useState(ticketsData);
+
+  const handleSelect = (ticket) => {
+    setSelectedTickets([...selectedTickets, ticket]);
+
+    toast(`${ticket.title} _ Added to Task`);
+
+    setInProgressCount((count) => count + 1);
+  };
+  const handleComplete = (ticket) => {
+    setSelectedTickets(selectedTickets.filter((t) => t.id !== ticket.id));
+
+    setTickets(tickets.filter((t) => t.id !== ticket.id));
+
+    toast(`${ticket.title} _ Completed!`);
+
+    setInProgressCount((count) => count - 1);
+
+    setResolvedCount((count) => count + 1);
+
+    setResolvedTickets([...resolvedTickets, ticket]);
+  };
+
+  return (
+    <div className="max-w-[1200px] mx-auto my-20 flex flex-col md:flex-row sm:items-center md:items-start justify-between gap-2">
+      <div className="w-9/12">
+        <h1 className="text-3xl font-semibold text-[#34485A]">
+          Customer Tickets
+        </h1>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+          {tickets.map((ticket) => (
+            <TicketCard
+              cardClick={() => handleSelect(ticket)}
+              key={ticket.id}
+              ticket={ticket}
+            ></TicketCard>
+          ))}
         </div>
-    );
+      </div>
+      <div className="w-4/12">
+        <div className="mb-12">
+          <h1 className="mb-3 text-3xl font-semibold text-[#34485A] pl-4">
+            Task Status
+          </h1>
+          {selectedTickets.length === 0 ? (
+            <p className="text-lg text-[#627382] pl-4">
+              Select a ticket to add to Task Status
+            </p>
+          ) : (
+            <div className="card-body w-96 sm:pr-18">
+              {selectedTickets.map((ticket) => (
+                <div key={ticket.id} className="card shadow-md p-4 rounded-md">
+                  <h2 className="font-semibold mb-3 text-lg">{ticket.title}</h2>
+                  <button
+                    onClick={() => handleComplete(ticket)}
+                    className="btn bg-[#02A53B] text-white text-xl rounded-lg py-4"
+                  >
+                    Complete
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+        <div>
+          <h1 className="mb-3 text-3xl font-semibold text-[#34485A] pl-4">
+            Resolved Task
+          </h1>
+          {resolvedTickets.length === 0 ? (
+            <p className="text-lg text-[#627382] pl-4">
+              No resolved tasks yet.
+            </p>
+          ) : (
+            <div className="card-body w-96 sm:pr-9">
+              {resolvedTickets.map((ticket) => (
+                <div key={ticket.id} className="card shadow-md p-4 rounded-md">
+                  <h2 className="font-semibold mb-3 text-lg">{ticket.title}</h2>
+                  <button className="btn bg-green-200 text-[#02A53B] text-xl rounded-lg py-4">
+                    ✔ Completed
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default CustomerTickets;
