@@ -39,7 +39,7 @@ const CustomerTickets = ({
   };
 
   return (
-    <div className="max-w-[1200px] mx-auto mt-20 pb-16 flex flex-col md:flex-row sm:items-center md:items-start justify-between gap-2">
+    <div className="max-w-[1200px] mx-auto mt-20 pb-16 flex flex-col md:flex-row sm:items-center md:items-start justify-between gap-1">
       {/* Customer Tickets list */}
       <div className="w-9/12">
         <h1 className="text-3xl font-semibold text-[#34485A]">
@@ -55,10 +55,10 @@ const CustomerTickets = ({
           ))}
         </div>
       </div>
-      <div className="w-4/12">
-      {/* Task Status Section */}
+      <div className="w-3/12 sm:mt-7">
+        {/* Task Status Section */}
         <div className="mb-6">
-          <h1 className="mb-3 text-3xl font-semibold text-[#34485A] pl-4">
+          <h1 className="mb-3 text-2xl md:text-3xl font-semibold text-[#34485A] pl-4">
             Task Status
           </h1>
           {selectedTickets.length === 0 ? (
@@ -68,7 +68,7 @@ const CustomerTickets = ({
           ) : (
             <div className="card-body w-96 sm:pr-18">
               {selectedTickets.map((ticket) => (
-                <div key={ticket.id} className="card shadow-md p-4 rounded-md">
+                <div key={ticket.id} className="card bg-white shadow-md p-4 rounded-md">
                   <h2 className="font-semibold mb-3 text-lg">{ticket.title}</h2>
                   <button
                     onClick={() => handleComplete(ticket)}
@@ -83,7 +83,7 @@ const CustomerTickets = ({
         </div>
         {/* Resolved Tasks Section */}
         <div>
-          <h1 className="mb-3 text-3xl font-semibold text-[#34485A] pl-4">
+          <h1 className="mb-3 text-2xl md:text-3xl font-semibold text-[#34485A] pl-4">
             Resolved Task
           </h1>
           {resolvedTickets.length === 0 ? (
@@ -91,9 +91,9 @@ const CustomerTickets = ({
               No resolved tasks yet.
             </p>
           ) : (
-            <div className="card-body w-96 sm:pr-9">
+            <div className="card-body w-86 sm:pr-9">
               {resolvedTickets.map((ticket) => (
-                <div key={ticket.id} className="card shadow-md p-4 rounded-md">
+                <div key={ticket.id} className="card bg-white shadow-md p-4 rounded-md">
                   <h2 className="font-semibold mb-3 text-lg">{ticket.title}</h2>
                   <button className="btn bg-green-200 text-[#02A53B] text-xl rounded-lg py-4">
                     ✔ Completed
