@@ -23,6 +23,6 @@ Answer: Usually, state is shared from a parent component to child components usi
 
 5. How is event handling done in React?
 Answer: Events in React are written as JSX attributes, using camelCase instead of lowercase.
-Example:
+Example:n
 <button onClick={handleClick}>Click Me</button>
 Here, handleClick is a function that runs when the button is clicked.

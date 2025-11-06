@@ -10,33 +10,37 @@ const CustomerTickets = ({
   const ticketsData = use(ticketsPromise);
   // console.log("Fetched Tickets:",ticketsData)
 
-  const [selectedTickets, setSelectedTickets] = useState([]);
-  const [resolvedTickets, setResolvedTickets] = useState([]);
+  // Local state
+  const [selectedTickets, setSelectedTickets] = useState([]); // Currently selected tickets (Task Status)
+  const [resolvedTickets, setResolvedTickets] = useState([]); // Tickets remaining in main list
   const [tickets, setTickets] = useState(ticketsData);
 
   const handleSelect = (ticket) => {
+    // Add ticket to selectedTickets
     setSelectedTickets([...selectedTickets, ticket]);
-
+    // To Show Toast notification
     toast(`${ticket.title} _ Added to Task`);
-
+    // Increment In-Progress count
     setInProgressCount((count) => count + 1);
   };
   const handleComplete = (ticket) => {
+    // Remove from Task Status
     setSelectedTickets(selectedTickets.filter((t) => t.id !== ticket.id));
-
+    // Remove from main list
     setTickets(tickets.filter((t) => t.id !== ticket.id));
-
+    // Show completion toast
     toast(`${ticket.title} _ Completed!`);
-
+    // Decrement In-Progress count
     setInProgressCount((count) => count - 1);
-
+    // Increment Resolved count
     setResolvedCount((count) => count + 1);
-
+    // Add to Resolved tickets
     setResolvedTickets([...resolvedTickets, ticket]);
   };
 
   return (
-    <div className="max-w-[1200px] mx-auto my-20 flex flex-col md:flex-row sm:items-center md:items-start justify-between gap-2">
+    <div className="max-w-[1200px] mx-auto mt-20 pb-16 flex flex-col md:flex-row sm:items-center md:items-start justify-between gap-2">
+      {/* Customer Tickets list */}
       <div className="w-9/12">
         <h1 className="text-3xl font-semibold text-[#34485A]">
           Customer Tickets
@@ -52,7 +56,8 @@ const CustomerTickets = ({
         </div>
       </div>
       <div className="w-4/12">
-        <div className="mb-12">
+      {/* Task Status Section */}
+        <div className="mb-6">
           <h1 className="mb-3 text-3xl font-semibold text-[#34485A] pl-4">
             Task Status
           </h1>
@@ -76,6 +81,7 @@ const CustomerTickets = ({
             </div>
           )}
         </div>
+        {/* Resolved Tasks Section */}
         <div>
           <h1 className="mb-3 text-3xl font-semibold text-[#34485A] pl-4">
             Resolved Task
