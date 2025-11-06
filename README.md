@@ -2,7 +2,7 @@
 Answer: JSX is a syntax that lets us write HTML-like code inside JavaScript. It makes creating React components easier and more readable. Without JSX, we have to write a lot of JavaScript code to create elements, which can get messy.
 
 
-2. Difference between State and Props:
+2. Difference between State and Props?
 Answer:
 Props: These are used to pass data from a parent component to a child component.Props are read-only, so the child component cannot modify them.
 
@@ -23,6 +23,6 @@ Answer: Usually, state is shared from a parent component to child components usi
 
 5. How is event handling done in React?
 Answer: Events in React are written as JSX attributes, using camelCase instead of lowercase.
-Example:n
+Example:
 <button onClick={handleClick}>Click Me</button>
 Here, handleClick is a function that runs when the button is clicked.
